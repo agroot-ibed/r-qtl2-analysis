@@ -14,14 +14,23 @@ install.packages("qtl")
 ### install other dependencies
 
 install.packages(ggplot2)
+
 install.packages(reshape2)
+
 install.packages(plyr)
+
 install.packages(qtl)
+
 install.packages(foreach)
+
 install.packages(doParallel)
+
 install.packages(data.table)
+
 install.packages(car)
+
 install.packages(grid)
+
 install.packages(UsingR)
 
 ## Convert vcf to SNP marix

@@ -76,7 +76,7 @@ pheno = data.frame(
 
 # create the R/qtl2 control file
 write_control_file(output_file = "rqtl2_inputfiles/control.yaml",
-                   crosstype = "f2",
+                   crosstype = "bc",
                    geno_file = "rqtl2_inputfiles/genotypes.csv",
                    pmap_file = "rqtl2_inputfiles/physical_map.csv",
                    pheno_file = "rqtl2_inputfiles/pheno.csv",

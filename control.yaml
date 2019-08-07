@@ -1,0 +1,16 @@
+crosstype: bc
+sep: ','
+na.strings: NA
+comment.char: '#'
+geno: data/genotypes.csv
+pmap: data/physical_map.csv
+pheno: data/pheno.csv
+covar: data/covar.csv
+alleles:
+- A
+- B
+geno_transposed: yes
+sex:
+  covar: sex
+  m: male
+  f: female

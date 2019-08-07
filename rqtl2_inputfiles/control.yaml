@@ -1,15 +1,16 @@
-crosstype: f2
+crosstype: bc
 sep: ','
 na.strings: NA
 comment.char: '#'
 geno: rqtl2_inputfiles/genotypes.csv
 pmap: rqtl2_inputfiles/physical_map.csv
 pheno: rqtl2_inputfiles/pheno.csv
+covar: rqtl2_inputfiles/covar.csv
 alleles:
 - A
 - B
-genotypes:
-- 1
-- 2
-- 3
 geno_transposed: yes
+sex:
+  covar: sex
+  m: male
+  f: female

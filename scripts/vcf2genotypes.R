@@ -46,44 +46,37 @@ source("scripts/helpers.R")
 # Reads the VCF file 
 ####################
 
-vcf = data.table::fread(input = "variants.vcf",
+vcf = data.table::fread(input = "data/populations.snps.vcf",
                         sep = "\t",
                         skip = "#CHROM") # starts reading the file at this position (skips the rest)
 
-#################################################
-# Conversion to genotypes with the R/qtl2 package
-#################################################
+# extracts genotype information from VCF file (Variant Annotation package)
+genotypes = vcf2genotypes("data/populations.snps.vcf")
+write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = T)
 
-# I need to separate the map information from the genotype
+# extracts the physical marker info
+phys_markers = extract_physical_map(genotypes)
+write.csv(x = phys_markers,file = "data/physical_map.csv",quote = F,row.names = T)
 
 ###################################
 # File creation for R/qtl2 analysis
 ###################################
 
-# extracts genotype information from VCF file (Variant Annotation package)
-genotypes = vcf2genotypes("variants.vcf")
-write.csv(x = genotypes,file = "rqtl2_inputfiles/genotypes.csv",quote = F,row.names = T)
-
-# extracts the physical marker info
-phys_markers = extract_physical_map(genotypes)
-write.csv(x = phys_markers,file = "rqtl2_inputfiles/physical_map.csv",quote = F,row.names = T)
-
-# make a fake table for phenotypic values
-pheno = data.frame(
-  id = colnames(genotypes),
-  pheno.vals = runif(n = length(colnames(genotypes)),min = 0.2,max = 10)
-  )
-
 # create the R/qtl2 control file
-write_control_file(output_file = "rqtl2_inputfiles/control.yaml",
+write_control_file(output_file = "control.yaml",
                    crosstype = "bc",
-                   geno_file = "rqtl2_inputfiles/genotypes.csv",
-                   pmap_file = "rqtl2_inputfiles/physical_map.csv",
-                   pheno_file = "rqtl2_inputfiles/pheno.csv",
-                   covar_file = "phenocovar.csv",
+                   geno_file = "data/genotypes.csv",
+                   pmap_file = "data/physical_map.csv",
+                   pheno_file = "data/pheno.csv",
+                   covar_file = "data/covar.csv",
                    alleles = c("A","B"),
-                   geno_codes = c(1,2,3),
+                   sex_covar = "sex",
+                   sex_codes = list(
+                     "m" = "male",
+                     "f" = "female"),
                    sep = ",",
                    na.strings = "NA",
-                   geno_transposed = TRUE,
+                   geno_transposed = TRUE,   # if TRUE, markers as rows
+                   pheno_transposed = FALSE, # if TRUE, phenotypes as rows
+                   covar_transposed = FALSE, # if TRUE, covariates as rows
                    overwrite = TRUE)

@@ -53,11 +53,15 @@ vcf = data.table::fread(input = "data/populations.snps.vcf",
 # extracts genotype information from VCF file (Variant Annotation package)
 genotypes = vcf2genotypes("data/populations.snps.vcf")
 genotypes = t(genotypes)
-write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = T)
+genotypes = as.data.frame(genotypes)
+genotypes$ID= row.names(genotypes)
+row.names(genotypes)=NULL
+write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = F)
 
 # extracts the physical marker info
 phys_markers = vcf[,1:3]
 phys_markers = phys_markers[,c("ID","#CHROM","POS")]
+row.names(phys_markers) <- NULL
 write.csv(x = phys_markers,file = "data/physical_map.csv",quote = F,row.names = F)
 
 ###################################

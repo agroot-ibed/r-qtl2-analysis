@@ -56,7 +56,8 @@ genotypes = t(genotypes)
 write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = T)
 
 # extracts the physical marker info
-phys_markers = extract_physical_map(genotypes)
+phys_markers = vcf[,1:3]
+phys_markers = phys_markers[,c("ID","#CHROM","POS")]
 write.csv(x = phys_markers,file = "data/physical_map.csv",quote = F,row.names = F)
 
 ###################################
@@ -82,3 +83,8 @@ write_control_file(output_file = "control.yaml",
                    pheno_transposed = FALSE, # if TRUE, phenotypes as rows
                    covar_transposed = FALSE, # if TRUE, covariates as rows
                    overwrite = TRUE)
+
+#######################
+# Read the control file
+#######################
+dataset = read_cross2("control.yaml")

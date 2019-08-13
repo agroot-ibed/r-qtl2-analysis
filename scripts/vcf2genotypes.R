@@ -45,13 +45,14 @@ source("scripts/helpers.R")
 ####################
 # Reads the VCF file 
 ####################
-
+  
 vcf = data.table::fread(input = "data/populations.snps.vcf",
                         sep = "\t",
                         skip = "#CHROM") # starts reading the file at this position (skips the rest)
 
 # extracts genotype information from VCF file (Variant Annotation package)
 genotypes = vcf2genotypes("data/populations.snps.vcf")
+genotypes = t(genotypes)
 write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = T)
 
 # extracts the physical marker info

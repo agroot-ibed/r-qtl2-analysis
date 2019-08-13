@@ -9,6 +9,10 @@ covar: data/covar.csv
 alleles:
 - A
 - B
+genotypes:
+  A/A: 1
+  A/B: 2
+  B/B: 3
 geno_transposed: yes
 sex:
   covar: sex

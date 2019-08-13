@@ -56,7 +56,7 @@ write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = T)
 
 # extracts the physical marker info
 phys_markers = extract_physical_map(genotypes)
-write.csv(x = phys_markers,file = "data/physical_map.csv",quote = F,row.names = T)
+write.csv(x = phys_markers,file = "data/physical_map.csv",quote = F,row.names = F)
 
 ###################################
 # File creation for R/qtl2 analysis
@@ -76,6 +76,7 @@ write_control_file(output_file = "control.yaml",
                      "f" = "female"),
                    sep = ",",
                    na.strings = "NA",
+                   geno_codes =list("A/A"=1, "A/B"=2, "B/B"=3),
                    geno_transposed = TRUE,   # if TRUE, markers as rows
                    pheno_transposed = FALSE, # if TRUE, phenotypes as rows
                    covar_transposed = FALSE, # if TRUE, covariates as rows

@@ -10,33 +10,33 @@
 ###########
 
 if ("qtl2" %in% installed.packages()){
-  library("qtl2") # loads the library
+  suppressMessages(library("qtl2")) # loads the library
 } else {
   install.packages("qtl2", repos="http://rqtl.org/qtl2cran")
-  library("qtl2")
+  suppressMessages(library("qtl2"))
 }
 
 if ("qtl2convert" %in% installed.packages()){
-  library("qtl2convert") # loads the library
+  suppressMessages(library("qtl2convert")) # loads the library
 } else {
   install.packages("qtl2convert", repos="http://rqtl.org/qtl2cran")
-  library("qtl2")
+  suppressMessages(library("qtl2"))
 }
 
 if ("data.table" %in% installed.packages()){
-  library("data.table") # loads the library
+  suppressMessages(library("data.table")) # loads the library
 } else {
   install.packages("data.table")
-  library("data.table")
+  suppressMessages(library("data.table"))
 }
 
 if ("VariantAnnotation" %in% installed.packages() && "snpStats" %in% installed.packages()){
-  library("VariantAnnotation")
-  library("snpStats")
+  suppressMessages(library("VariantAnnotation"))
+  suppressMessages(library("snpStats"))
 } else {
   BiocManager::install("VariantAnnotation",update = FALSE)
   BiocManager::install('snpStats',update = FALSE)
-  library("VariantAnnotation")
+  suppressMessages(library("VariantAnnotation"))
 }
 
 # custom functions
@@ -50,17 +50,26 @@ vcf = data.table::fread(input = "data/populations.snps.vcf",
                         sep = "\t",
                         skip = "#CHROM") # starts reading the file at this position (skips the rest)
 
-# extracts genotype information from VCF file (Variant Annotation package)
-genotypes = vcf2genotypes("data/populations.snps.vcf")
-genotypes = t(genotypes)
-genotypes = as.data.frame(genotypes)
-genotypes$ID= row.names(genotypes)
-row.names(genotypes)=NULL
-write.csv(x = genotypes,file = "data/genotypes.csv",quote = F,row.names = F)
 
+###############################
+# Extracts genotype information
+###############################
+
+# extracts genotype information from VCF file (using a custom function built around Variant Annotation package)
+genotypes = vcf2genotypes("data/populations.snps.vcf")
+t.genotypes = t(genotypes)
+genotypes.df = as.data.frame(t.genotypes)
+id=row.names(genotypes)
+genotypes.final = cbind.data.frame(id,genotypes)
+row.names(genotypes.final)=NULL
+write.csv(x = genotypes.final,file = "data/genotypes.csv",quote = F,row.names = F)
+
+###################################
 # extracts the physical marker info
+###################################
 phys_markers = vcf[,1:3]
 phys_markers = phys_markers[,c("ID","#CHROM","POS")]
+colnames(phys_markers)=c("marker","chr","pos")
 row.names(phys_markers) <- NULL
 write.csv(x = phys_markers,file = "data/physical_map.csv",quote = F,row.names = F)
 

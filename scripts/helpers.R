@@ -18,8 +18,7 @@ extract_physical_map <- function(genotypeFile){
   markers = row.names(genotypeFile)
   markers.df = data.frame(marker=markers,markers = markers)
   markers.df.parsed = markers.df %>% 
-    separate(markers,into = c("chr","pos"),sep=":") %>%
-    separate(pos,into=c("pos","alleles"),sep="_")
+    separate(markers,into = c("chr","pos"),sep=":") 
   return(markers.df.parsed)
 }
   

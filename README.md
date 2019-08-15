@@ -1,41 +1,31 @@
-# qtl-analysis
-## dependencies
+# QTL analysis with R/qtl2
+This repository contains scripts and datasets for a QTL analysis with the [R/qtl2 package from Karl Broman](https://kbroman.org/qtl2/).  
 
-### Install package ‘VariantAnnotation’ version 1.24.5
+User need to provide:
+- a VCF file containing the SNP variants (previously identified through genomic analyses).
+- a phenotype file containing values measured  . 
 
-source("https://bioconductor.org/biocLite.R")
+For more specific insights about the required input files, the user can consult the specific vignette: https://kbroman.org/qtl2/assets/vignettes/input_files.html 
 
-biocLite("VariantAnnotation")
+## Datasets
 
-### Install package ‘qtl’ version 1.44
+Examples of dataset can be found in the `data` folder:
+- **populations.snps.vcf**: a Variant Calling Format files listing the SNPs for each individual. 
+- **pheno.csv**: the phenotypic values measured on each individual.
+- **covar.csv**: if known covariates (such as sex) are metadata regarding the phenotypic values. 
 
-install.packages("qtl")
+## Usage
 
-### install other dependencies
+In R or RStudio, open and run the `qtl2_analysis.R` script to generate the required input file and perform the QTL analysis.
 
-install.packages(ggplot2)
+## Dependencies
 
-install.packages(reshape2)
+All dependencies are installed when running the `qtl2_analysis.R` script in R or RStudio. This script makes use of:
 
-install.packages(plyr)
+- **VariantAnnotation**: https://bioconductor.org/packages/release/bioc/html/VariantAnnotation.html 
+- **data.table**: https://cran.r-project.org/web/packages/data.table/index.html
+- **R/qtl2**: https://kbroman.org/qtl2/
 
-install.packages(qtl)
-
-install.packages(foreach)
-
-install.packages(doParallel)
-
-install.packages(data.table)
-
-install.packages(car)
-
-install.packages(grid)
-
-install.packages(UsingR)
-
-## Convert vcf to SNP marix
-run convert.R in the directory containing the vcf file. 
-
-## QTL analysis
-run female_qtl.R in the directory containing the SNP matrix.
+## Acknowledgments
+We are grateful to Karl Broman for advices and support on how to use his dedicated R/qtl2 package. 
 
